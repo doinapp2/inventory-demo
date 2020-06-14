@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -261,7 +263,21 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
-        System.out.println("Save!");
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        List<String[]> rows = new ArrayList<>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String[] row = new String[4];
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                row[j] = (String) model.getValueAt(i, j);
+            }
+            rows.add(row);
+        }
+        try {
+            new Model().saveCsv(rows, "HELLO.CSV");
+            showMessage("File saved");
+        } catch (IOException ex) {
+            showMessage("Could not save csv file");
+        }
     }//GEN-LAST:event_jMenuSaveActionPerformed
 
     private void jMenuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLoadActionPerformed
@@ -273,18 +289,27 @@ public class MainWindow extends javax.swing.JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
             System.out.println(selectedFile.getAbsolutePath());
-            
+
             try {
                 List<String[]> rows = new Model().loadCsv(selectedFile.getAbsolutePath());
-                for (String[] row : rows) {
+                String[][] data = new String[rows.size()][4];
+                for (int i = 0; i < rows.size(); i++) {
+                    String[] row = rows.get(i);
                     if (row.length != 4) {
                         throw new CsvException();
                     }
-                    for (int i = 0; i < row.length; i++) {
-                        System.out.println(row[i]);
+                    for (int j = 0; j < row.length; j++) {
+                        System.out.println(row[j]);
+                        data[i][j] = row[j];
                     }
                 }
-                showMessage("Read " + rows.size() + " lines" );
+                showMessage("Read " + rows.size() + " lines");
+                
+                String[] columnNames = {"ID", "Name", "Quantity", "Price"};
+                TableModel m = new DefaultTableModel(data, (Object[])columnNames);
+                jTable1.setModel(m);
+                jTable1.getColumnModel().getColumn(1).setPreferredWidth(170);
+                    
             } catch (IOException ex) {
                 showMessage("I/O error while reading csv file");
             } catch (CsvException ex) {
@@ -344,7 +369,7 @@ public class MainWindow extends javax.swing.JFrame {
         timer.setRepeats(false);
         timer.start();
     }
-    
+
     /**
      * @param args the command line arguments
      */
