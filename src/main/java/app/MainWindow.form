@@ -17,6 +17,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/disk.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
               <Events>
@@ -25,6 +28,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuLoad">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/folder-horizontal-open.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Load"/>
               </Properties>
               <Events>
@@ -33,6 +39,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuQuit">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/door-open.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Quit"/>
               </Properties>
               <Events>
@@ -141,6 +150,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jMessage">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="ff" red="cc" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="bf" green="82" id="CheckBoxMenuItem.acceleratorForeground" palette="3" red="63" type="palette"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

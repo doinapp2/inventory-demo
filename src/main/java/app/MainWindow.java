@@ -10,17 +10,27 @@ package app;
  * @author Doina
  */
 import com.github.javafaker.Faker;
+import com.opencsv.exceptions.CsvException;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -89,6 +99,9 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jMessage.setBackground(new java.awt.Color(204, 255, 153));
+        jMessage.setForeground(javax.swing.UIManager.getDefaults().getColor("CheckBoxMenuItem.acceleratorForeground"));
+
         jMenu1.setText("File");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,6 +110,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jMenuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/disk.png"))); // NOI18N
         jMenuSave.setText("Save");
         jMenuSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +119,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuSave);
 
+        jMenuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/folder-horizontal-open.png"))); // NOI18N
         jMenuLoad.setText("Load");
         jMenuLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +128,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuLoad);
 
+        jMenuQuit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/door-open.png"))); // NOI18N
         jMenuQuit.setText("Quit");
         jMenuQuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +229,32 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSaveActionPerformed
 
     private void jMenuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLoadActionPerformed
-        System.out.println("Load!");
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+        int returnValue = jfc.showOpenDialog(null);
+        // int returnValue = jfc.showSaveDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+            
+            try {
+                List<String[]> rows = new Model().loadCsv(selectedFile.getAbsolutePath());
+                for (String[] row : rows) {
+                    if (row.length != 4) {
+                        throw new CsvException();
+                    }
+                    for (int i = 0; i < row.length; i++) {
+                        System.out.println(row[i]);
+                    }
+                }
+                showMessage("Read " + rows.size() + " lines" );
+            } catch (IOException ex) {
+                showMessage("I/O error while reading csv file");
+            } catch (CsvException ex) {
+                showMessage("Error parsing csv file");
+            }
+        }
     }//GEN-LAST:event_jMenuLoadActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
@@ -229,7 +270,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         int row = jTable1.getSelectedRow();
         jMessage.setText("Delete row " + row);
-        
+
         ActionListener taskPerformer = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -242,6 +283,21 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
+    public void showMessage(String message) {
+
+        jMessage.setText(message);
+
+        ActionListener taskPerformer = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jMessage.setText("");
+            }
+        };
+        Timer timer = new Timer(5000, taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
+    }
+    
     /**
      * @param args the command line arguments
      */
