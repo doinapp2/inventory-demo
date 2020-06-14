@@ -263,20 +263,30 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        List<String[]> rows = new ArrayList<>();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            String[] row = new String[4];
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                row[j] = (String) model.getValueAt(i, j);
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+        // int returnValue = jfc.showOpenDialog(null);
+        int returnValue = jfc.showSaveDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            List<String[]> rows = new ArrayList<>();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String[] row = new String[4];
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    row[j] = (String) model.getValueAt(i, j);
+                }
+                rows.add(row);
             }
-            rows.add(row);
-        }
-        try {
-            new Model().saveCsv(rows, "HELLO.CSV");
-            showMessage("File saved");
-        } catch (IOException ex) {
-            showMessage("Could not save csv file");
+            try {
+                new Model().saveCsv(rows, selectedFile.getAbsolutePath());
+                showMessage("File saved");
+            } catch (IOException ex) {
+                showMessage("Could not save csv file");
+            }
         }
     }//GEN-LAST:event_jMenuSaveActionPerformed
 
@@ -304,12 +314,12 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 showMessage("Read " + rows.size() + " lines");
-                
+
                 String[] columnNames = {"ID", "Name", "Quantity", "Price"};
-                TableModel m = new DefaultTableModel(data, (Object[])columnNames);
+                TableModel m = new DefaultTableModel(data, (Object[]) columnNames);
                 jTable1.setModel(m);
                 jTable1.getColumnModel().getColumn(1).setPreferredWidth(170);
-                    
+
             } catch (IOException ex) {
                 showMessage("I/O error while reading csv file");
             } catch (CsvException ex) {
@@ -333,17 +343,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() != -1) {
             // remove selected row from the model
             model.removeRow(row);
-            jMessage.setText("Delete row " + row);
-
-            ActionListener taskPerformer = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    jMessage.setText("");
-                }
-            };
-            Timer timer = new Timer(2000, taskPerformer);
-            timer.setRepeats(false);
-            timer.start();
+            showMessage("Deleted row " + row);
         }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
@@ -352,7 +352,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuHelpActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(
+                null,
+                "Inventory Application Demo\nCreated by Doina and Alex\nJune 2020",
+                "About",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public void showMessage(String message) {
