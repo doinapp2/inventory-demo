@@ -31,6 +31,10 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(170);
+        int numRows = 5;
+        for (int i = 0; i < numRows; i++) {
+            addRandomItemRow();
+        }
     }
 
     /**
@@ -171,6 +175,14 @@ public class MainWindow extends javax.swing.JFrame {
         return (int) (Math.random() * max + min);
     }
 
+    private void addRandomItemRow() {
+        Object[] rowData = {String.valueOf(getRandomInt(100)),
+            new Faker().book().title(),
+            String.valueOf(getRandomInt(100)),
+            String.valueOf(getRandomInt(100))};
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.addRow(rowData);
+    }
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         GridLayout myGridLayout = new GridLayout(4, 2);
         int fieldSize = 10;
@@ -226,20 +238,23 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuQuitActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
-        jMessage.setText("Delete row " + row);
-        
-        ActionListener taskPerformer = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jMessage.setText("");
-            }
-        };
-        Timer timer = new Timer(2000, taskPerformer);
-        timer.setRepeats(false);
-        timer.start();
+        if (jTable1.getSelectedRow() != -1) {
+            // remove selected row from the model
+            model.removeRow(row);
+            jMessage.setText("Delete row " + row);
 
+            ActionListener taskPerformer = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jMessage.setText("");
+                }
+            };
+            Timer timer = new Timer(2000, taskPerformer);
+            timer.setRepeats(false);
+            timer.start();
+        }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
