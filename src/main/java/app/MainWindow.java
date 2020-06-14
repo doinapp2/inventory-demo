@@ -66,6 +66,8 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuSave = new javax.swing.JMenuItem();
         jMenuLoad = new javax.swing.JMenuItem();
         jMenuQuit = new javax.swing.JMenuItem();
+        jMenuHelp = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory");
@@ -89,14 +91,18 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plus.png"))); // NOI18N
         jButtonAdd.setText("Add");
+        jButtonAdd.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddActionPerformed(evt);
             }
         });
 
+        jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/minus.png"))); // NOI18N
         jButtonDelete.setText("Delete");
+        jButtonDelete.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
@@ -114,7 +120,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jMenuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/disk.png"))); // NOI18N
+        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/disk.png"))); // NOI18N
         jMenuSave.setText("Save");
         jMenuSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +129,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuSave);
 
-        jMenuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/folder-horizontal-open.png"))); // NOI18N
+        jMenuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder-horizontal-open.png"))); // NOI18N
         jMenuLoad.setText("Load");
         jMenuLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +138,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuLoad);
 
-        jMenuQuit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/door-open.png"))); // NOI18N
+        jMenuQuit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/door-open.png"))); // NOI18N
         jMenuQuit.setText("Quit");
         jMenuQuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,6 +148,24 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.add(jMenuQuit);
 
         jMenuBar1.add(jMenu1);
+
+        jMenuHelp.setText("Help");
+        jMenuHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuHelpActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/question.png"))); // NOI18N
+        jMenuItem1.setText("About");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuHelp.add(jMenuItem1);
+
+        jMenuBar1.add(jMenuHelp);
 
         setJMenuBar(jMenuBar1);
 
@@ -166,7 +190,7 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdd)
@@ -298,6 +322,14 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
+    private void jMenuHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuHelpActionPerformed
+        System.out.println("HELLO");        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuHelpActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public void showMessage(String message) {
 
         jMessage.setText(message);
@@ -353,6 +385,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuHelp;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuLoad;
     private javax.swing.JMenuItem jMenuQuit;
     private javax.swing.JMenuItem jMenuSave;
