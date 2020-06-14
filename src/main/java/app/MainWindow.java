@@ -9,6 +9,20 @@ package app;
  *
  * @author Doina
  */
+import com.github.javafaker.Faker;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Scanner;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+
 public class MainWindow extends javax.swing.JFrame {
 
     /**
@@ -27,21 +41,205 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
+        jMessage = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuSave = new javax.swing.JMenuItem();
+        jMenuLoad = new javax.swing.JMenuItem();
+        jMenuQuit = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inventory");
+        setName("Inventory"); // NOI18N
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Quantity", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jButtonAdd.setText("Add");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
+        jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        jMenuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuSave.setText("Save");
+        jMenuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuSave);
+
+        jMenuLoad.setText("Load");
+        jMenuLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLoadActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuLoad);
+
+        jMenuQuit.setText("Quit");
+        jMenuQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuQuitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuQuit);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonAdd)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButtonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jMessage)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdd)
+                    .addComponent(jButtonDelete)
+                    .addComponent(jMessage))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public int getRandomInt() {
+        int max = 100;
+        return getRandomInt(0, max);
+    }
+
+    public int getRandomInt(int max) {
+        return getRandomInt(0, max);
+    }
+
+    public int getRandomInt(int min, int max) {
+        return (int) (Math.random() * max + min);
+    }
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        GridLayout myGridLayout = new GridLayout(4, 2);
+        int fieldSize = 10;
+        JTextField idField = new JTextField(fieldSize);
+        JTextField nameField = new JTextField(fieldSize);
+        JTextField quantityField = new JTextField(fieldSize);
+        JTextField priceField = new JTextField(fieldSize);
+
+        idField.setText(String.valueOf(getRandomInt(100)));
+        quantityField.setText(String.valueOf(getRandomInt(100)));
+        priceField.setText(String.valueOf(getRandomInt(1000)));
+        nameField.setText(new Faker().book().title());
+
+        JPanel myPanel = new JPanel();
+        myPanel.setLayout(myGridLayout);
+        myPanel.add(new JLabel("ID:"));
+        myPanel.add(idField);
+        myPanel.add(Box.createVerticalStrut(15)); // a spacer
+        myPanel.add(new JLabel("Name:"));
+        myPanel.add(nameField);
+        myPanel.add(Box.createVerticalStrut(15)); // a spacer
+        myPanel.add(new JLabel("Quantity:"));
+        myPanel.add(quantityField);
+        myPanel.add(Box.createVerticalStrut(15)); // a spacer
+        myPanel.add(new JLabel("Price:"));
+        myPanel.add(priceField);
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "Please Enter the Values", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            Object[] rowData = {idField.getText(), nameField.getText(), quantityField.getText(), priceField.getText()};
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.addRow(rowData);
+        }
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
+        System.out.println("Save!");
+    }//GEN-LAST:event_jMenuSaveActionPerformed
+
+    private void jMenuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLoadActionPerformed
+        System.out.println("Load!");
+    }//GEN-LAST:event_jMenuLoadActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuQuitActionPerformed
+        // Quit button
+        System.exit(0);
+    }//GEN-LAST:event_jMenuQuitActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+
+        int row = jTable1.getSelectedRow();
+        jMessage.setText("Delete row " + row);
+        
+        ActionListener taskPerformer = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jMessage.setText("");
+            }
+        };
+        Timer timer = new Timer(2000, taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
+
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +277,15 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonDelete;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuLoad;
+    private javax.swing.JMenuItem jMenuQuit;
+    private javax.swing.JMenuItem jMenuSave;
+    private javax.swing.JLabel jMessage;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
